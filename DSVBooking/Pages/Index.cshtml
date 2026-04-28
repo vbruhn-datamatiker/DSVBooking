@@ -1,62 +1,105 @@
 ﻿@page
 @model DSVBooking.Pages.IndexModel
 @using DSVBooking.Models
-
 @{
-    ViewData["Title"] = "Mødelokaler"; //Sender <title> til fanen
+    ViewData["Title"] = "Mødelokaler";
 }
 
-<h1>Mødelokaler</h1>
+<div class="container py-4">
 
-<!--Filtrering af mødelokaler-->
-<form method="get">
-   
-    <!--Input felt til at indtaste ønsket antal kapacitet -->
-    <label>Minimum kapacitet:</label>
-    <input type="number" name="MinCapacity" value="@Model.MinCapacity" />
+    <div class="dsv-header mb-4">
+        <h1 class="dsv-title">DSV Mødelokaler</h1>
+        <p class="dsv-subtitle">Find og book mødelokaler her</p>
+    </div>
 
-    <!-- Dropdown menu til at filtrere udstyr -->
-    <label>Udstyr:</label>
-    <select name="SelectedEquipment">
-        <option value="">-- Alle --</option>
-        <option value="Projektor">Projektor</option>
-        <option value="Whiteboard">Whiteboard</option>
-        <option value="TV-skærm">TV-skærm</option>
-    </select>
+    <!-- Filter form, filtrering af mødelokaler -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title mb-3">Filtrer lokaler</h5>
+            <form method="get">
+                <div class="row g-3 align-items-end">
 
-    <button type="submit">Søg</button>
-    <a href="/">Nulstil</a>
-</form>
+                    <!--Input felt til at indtaste ønsket antal kapacitet -->
+                    <div class="col-md-4">
+                        <label for="MinCapacity" class="form-label">Minimum antal personer</label>
+                        <input type="number" class="form-control" id="MinCapacity" name="MinCapacity"
+                               value="@Model.MinCapacity" min="0" placeholder="Antal personer" />
+                    </div>
 
-<!-- Linje der adskiller søgefelt og rum -->
-<hr />
-
-<!-- Genererer liste af tilgængelige lokaler, ud fra resultat af filtrering. Viser MeetingRoom objekter -->
-@if (Model.Rooms.Count == 0)
-{
-    <!--Besked hvis der ikke findes nogen lokaler (hvis repository list er empty) -->
-    <p>Ingen mødelokaler fundet.</p>
-}
-else
-{
-    @foreach (MeetingRoom room in Model.Rooms)
-    {
-        <div>
-            <h2>@room.Name</h2>
-            <p>Kapacitet: @room.Capacity personer</p>
-            <p>
-                Udstyr:
-                @foreach (string item in room.Equipment)
-                {
-                    <span>@item </span>
-                }
-            </p>
-            <p>Status: @(room.IsAvailable ? "Ledig" : "Optaget")</p>
-            <a href="/Book?roomId=@room.Id">Book lokale</a>
+                    <!-- Dropdown menu til at filtrere udstyr -->
+                    <div class="col-md-4">
+                        <label for="SelectedEquipment" class="form-label">Udstyr</label>
+                        <select class="form-select" id="SelectedEquipment" name="SelectedEquipment">
+                            <option value="">-- Alle --</option>
+                            <option value="Projektor" selected="@(Model.SelectedEquipment == "Projektor")">Projektor</option>
+                            <option value="Whiteboard" selected="@(Model.SelectedEquipment == "Whiteboard")">Whiteboard</option>
+                            <option value="TV-skærm" selected="@(Model.SelectedEquipment == "TV-skærm")">TV-skærm</option>
+                            <option value="Videokonference" selected="@(Model.SelectedEquipment == "Videokonference")">Videokonference</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-dsv w-100">Søg</button>
+                        <a href="/" class="btn btn-outline-secondary w-100 mt-2">Nulstil</a>
+                    </div>
+                </div>
+            </form>
         </div>
-        <hr />
-    }
-}
+    </div>
 
-<!-- Link til /MyBookings-->
-<a href="/MyBookings">Se bookinger</a>
+    <!-- Genererer liste af tilgængelige lokaler, ud fra resultat af filtrering. Viser MeetingRoom objekter -->
+    @if (Model.Rooms.Count == 0)
+    {
+        <!--Besked hvis der ikke findes nogen lokaler (hvis repository list er empty) -->
+        <div class="alert alert-warning">
+            Ingen mødelokaler matcher dine kriterier.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (MeetingRoom room in Model.Rooms)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm room-card">
+                        <div class="card-header dsv-card-header">
+                            <h5 class="mb-0">@room.Name</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2">
+                                <i class="bi bi-people-fill me-2"></i>
+                                <strong>Kapacitet:</strong> @room.Capacity personer
+                            </p>
+                            <p class="mb-2"><strong>Udstyr:</strong></p>
+                            <ul class="list-unstyled ms-2">
+                                @foreach (string item in room.Equipment)
+                                {
+                                    <li><i class="bi bi-check-circle-fill text-success me-1"></i>@item</li>
+                                }
+                            </ul>
+                            <p class="mb-0 mt-2">
+                                <strong>Status:</strong>
+                                @if (room.IsAvailable)
+                                {
+                                    <span class="badge bg-success ms-1">Ledig</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger ms-1">Optaget</span>
+                                }
+                            </p>
+                        </div>
+                        <div class="card-footer bg-white border-top-0">
+                            <a href="/Book?roomId=@room.Id" class="btn btn-dsv w-100">Book lokale</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- Link til /MyBookings-->
+    <div class="mt-4">
+        <a href="/MyBookings" class="btn btn-outline-dsv">Booking Oversigt</a>
+    </div>
+
+</div>

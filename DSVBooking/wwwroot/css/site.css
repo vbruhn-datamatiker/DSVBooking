@@ -1,3 +1,5 @@
+/* Indhold der var der i forvejen */
+
 html {
   font-size: 14px;
 }
@@ -18,7 +20,9 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    /* Lookalike-font til DSV Tema*/
+    font-family: 'Raleway', sans-serif;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -28,4 +32,71 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+/* Ny CSS */
+
+/* DSV Brand Colors */
+:root {
+    --dsv-red: #002664;
+    --dsv-dark: #1a1a1a;
+    --dsv-grey: #f5f5f5;
+}
+
+/* Header */
+.dsv-header {
+    border-left: 5px solid var(--dsv-red);
+    padding-left: 1rem;
+}
+
+.dsv-title {
+    color: var(--dsv-dark);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.dsv-subtitle {
+    color: #666;
+    margin-bottom: 0;
+}
+
+/* DSV Button */
+.btn-dsv {
+    background-color: var(--dsv-red);
+    color: white;
+    border: none;
+    font-weight: 600;
+}
+
+    /* Skifter farve af button on hover*/
+    .btn-dsv:hover {
+        background-color: #52B350;
+        color: white;
+    }
+
+.btn-outline-dsv {
+    border: 2px solid var(--dsv-red);
+    color: var(--dsv-red);
+    font-weight: 600;
+}
+
+    .btn-outline-dsv:hover {
+        background-color: var(--dsv-red);
+        color: white;
+    }
+
+/* Room Cards */
+.room-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #e0e0e0;
+}
+
+    .room-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
+    }
+
+.dsv-card-header {
+    background-color: var(--dsv-red);
+    color: white;
 }
