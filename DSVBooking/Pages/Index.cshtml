@@ -1,13 +1,62 @@
 ﻿@page
-@model IndexModel
+@model DSVBooking.Pages.IndexModel
+@using DSVBooking.Models
+
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Mødelokaler"; //Sender <title> til fanen
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>TEster oawiehfaiuehfifhwlefhw</a>.</p>
+<h1>Mødelokaler</h1>
 
-    <p>endnu en test </p>
+<!--Filtrering af mødelokaler-->
+<form method="get">
+   
+    <!--Input felt til at indtaste ønsket antal kapacitet -->
+    <label>Minimum kapacitet:</label>
+    <input type="number" name="MinCapacity" value="@Model.MinCapacity" />
 
-</div>
+    <!-- Dropdown menu til at filtrere udstyr -->
+    <label>Udstyr:</label>
+    <select name="SelectedEquipment">
+        <option value="">-- Alle --</option>
+        <option value="Projektor">Projektor</option>
+        <option value="Whiteboard">Whiteboard</option>
+        <option value="TV-skærm">TV-skærm</option>
+    </select>
+
+    <button type="submit">Søg</button>
+    <a href="/">Nulstil</a>
+</form>
+
+<!-- Linje der adskiller søgefelt og rum -->
+<hr />
+
+<!-- Genererer liste af tilgængelige lokaler, ud fra resultat af filtrering. Viser MeetingRoom objekter -->
+@if (Model.Rooms.Count == 0)
+{
+    <!--Besked hvis der ikke findes nogen lokaler (hvis repository list er empty) -->
+    <p>Ingen mødelokaler fundet.</p>
+}
+else
+{
+    @foreach (MeetingRoom room in Model.Rooms)
+    {
+        <div>
+            <h2>@room.Name</h2>
+            <p>Kapacitet: @room.Capacity personer</p>
+            <p>
+                Udstyr:
+                @foreach (string item in room.Equipment)
+                {
+                    <span>@item </span>
+                }
+            </p>
+            <p>Status: @(room.IsAvailable ? "Ledig" : "Optaget")</p>
+            <a href="/Book?roomId=@room.Id">Book lokale</a>
+        </div>
+        <hr />
+    }
+}
+
+<!-- Link til /MyBookings-->
+<a href="/MyBookings">Se bookinger</a>
