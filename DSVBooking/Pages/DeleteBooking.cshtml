@@ -1,0 +1,67 @@
+@page
+@model DSVBooking.Pages.DeleteBookingModel
+@using DSVBooking.Models
+@{
+    ViewData["Title"] = "Slet booking";
+}
+
+<div class="container py-4">
+
+    <div class="dsv-header mb-4">
+        <h1 class="dsv-title">Slet booking</h1>
+        <p class="dsv-subtitle">Er du sikker på, at du vil slette denne booking?</p>
+    </div>
+
+    <!-- Null Check, sørger for en error message frem for et crash hvis der skulle ske en fejl -->
+    @if (Model.ErrorMessage != "" && Model.Booking == null)
+    {
+        <div class="alert alert-danger">
+            @Model.ErrorMessage <a href="/MyBookings">Gå tilbage til mine bookinger</a>.
+        </div>
+    }
+    else
+    {
+        <!-- Booking info -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header dsv-card-header">
+                <h5 class="mb-0">@Model.Room.Name</h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-1">
+                    <i class="bi bi-person-fill me-2"></i>
+                    <strong>Navn:</strong> @Model.Booking.EmployeeName
+                </p>
+                <p class="mb-1">
+                    <i class="bi bi-calendar-fill me-2"></i>
+                    <strong>Dato:</strong> @Model.Booking.Date.ToString("dd/MM/yyyy")
+                </p>
+                <p class="mb-1">
+                    <i class="bi bi-clock-fill me-2"></i>
+                    <strong>Tidspunkt:</strong> @Model.Booking.StartTime.ToString("HH:mm") - @Model.Booking.EndTime.ToString("HH:mm")
+                </p>
+                @if (Model.Booking.Comment != "")
+                {
+                    <p class="mb-1">
+                        <i class="bi bi-chat-fill me-2"></i>
+                        <strong>Kommentar:</strong> @Model.Booking.Comment
+                    </p>
+                }
+            </div>
+        </div>
+
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            Denne handling kan ikke fortrydes. Mødelokalet vil blive gjort tilgængeligt for andre.
+        </div>
+
+        <!-- Bekræft delete form -->
+        <form method="post">
+            <input type="hidden" name="BookingId" value="@Model.BookingId" />
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-danger">Slet booking</button>
+                <a href="/MyBookings" class="btn btn-outline-secondary">Annuller</a>
+            </div>
+        </form>
+    }
+
+</div>
