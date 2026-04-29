@@ -1,51 +1,158 @@
-/* Indhold der var der i forvejen */
-
+/* ============================================================
+   General
+   ============================================================ */
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+/* Smooth dark mode transition on everything */
+*, *::before, *::after {
+    transition: background-color 0.3s ease, color 0.2s ease, border-color 0.3s ease;
 }
 
 body {
+    padding-top: 80px !important; /* Force override if bootstrap site.css is fighting you */
     margin-bottom: 60px;
-    /* Lookalike-font til DSV Tema*/
     font-family: 'Raleway', sans-serif;
+    background-color: var(--body-bg);
+    color: var(--body-text);
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus,
+.form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
 }
 
-/* Ny CSS */
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
 
-/* DSV Brand Colors */
+
+/* ============================================================
+   Theme Variables
+   ============================================================ */
 :root {
-    --dsv-red: #002664;
+    --body-bg: #ffffff;
+    --body-text: #1a1a2e;
+    --card-bg: #ffffff;
+    --card-border: #e0e0e0;
+    --input-bg: #ffffff;
+    --input-border: #d1d5db;
+    --input-text: #1a1a2e;
+    --muted-text: #6b7280;
+    --dsv-blue: #002664;
     --dsv-dark: #1a1a1a;
     --dsv-grey: #f5f5f5;
+    --nav-bg: #ffffff;
+    --nav-border: #e5e7eb;
+    --nav-text: #1a1a2e;
+    --nav-accent: #002b6e;
+    --nav-icon-size: 1.2rem;
+    --logo-height: 36px;
 }
 
-/* Header */
+[data-theme="dark"] {
+    --body-bg: #0f172a;
+    --body-text: #f1f5f9;
+    --card-bg: #1e293b;
+    --card-border: #334155;
+    --input-bg: #1e293b;
+    --input-border: #334155;
+    --input-text: #f1f5f9;
+    --muted-text: #94a3b8;
+    --dsv-grey: #1e293b;
+    --nav-bg: #1e293b;
+    --nav-border: #334155;
+    --nav-text: #f1f5f9;
+}
+
+
+    /* ============================================================
+   Dark theme page-wide overrides
+   ============================================================ */
+    [data-theme="dark"] .card,
+    [data-theme="dark"] .room-card {
+        background-color: var(--card-bg);
+        border-color: var(--card-border);
+        color: var(--body-text);
+    }
+
+    [data-theme="dark"] .card-body,
+    [data-theme="dark"] .card-title,
+    [data-theme="dark"] .card-text {
+        color: var(--body-text);
+    }
+
+    [data-theme="dark"] footer {
+        background-color: var(--body-bg);
+        border-color: var(--card-border) !important;
+        color: var(--muted-text);
+    }
+
+        [data-theme="dark"] footer a {
+            color: var(--nav-accent);
+        }
+
+    [data-theme="dark"] .form-control,
+    [data-theme="dark"] .form-select {
+        background-color: var(--input-bg);
+        border-color: var(--input-border);
+        color: var(--input-text);
+    }
+
+        [data-theme="dark"] .form-control:focus,
+        [data-theme="dark"] .form-select:focus {
+            background-color: var(--input-bg);
+            color: var(--input-text);
+        }
+
+    [data-theme="dark"] h1, [data-theme="dark"] h2,
+    [data-theme="dark"] h3, [data-theme="dark"] h4,
+    [data-theme="dark"] h5, [data-theme="dark"] h6 {
+        color: var(--body-text);
+    }
+
+    [data-theme="dark"] .text-muted {
+        color: var(--muted-text) !important;
+    }
+
+    [data-theme="dark"] .border-top,
+    [data-theme="dark"] .border-bottom {
+        border-color: var(--card-border) !important;
+    }
+
+    [data-theme="dark"] .table {
+        color: var(--body-text);
+        border-color: var(--card-border);
+    }
+
+    [data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: rgba(255,255,255,0.04);
+    }
+
+
+/* ============================================================
+   DSV components
+   ============================================================ */
 .dsv-header {
-    border-left: 5px solid var(--dsv-red);
+    border-left: 5px solid var(--dsv-blue);
     padding-left: 1rem;
 }
 
@@ -60,35 +167,32 @@ body {
     margin-bottom: 0;
 }
 
-/* DSV Button */
 .btn-dsv {
-    background-color: var(--dsv-red);
+    background-color: var(--dsv-blue);
     color: white;
     border: none;
     font-weight: 600;
 }
 
-    /* Skifter farve af button on hover*/
     .btn-dsv:hover {
         background-color: #52B350;
         color: white;
     }
 
 .btn-outline-dsv {
-    border: 2px solid var(--dsv-red);
-    color: var(--dsv-red);
+    border: 2px solid var(--dsv-blue);
+    color: var(--dsv-blue);
     font-weight: 600;
 }
 
     .btn-outline-dsv:hover {
-        background-color: var(--dsv-red);
+        background-color: var(--dsv-blue);
         color: white;
     }
 
-/* Room Cards */
 .room-card {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--card-border);
+    background-color: var(--card-bg);
 }
 
     .room-card:hover {
@@ -97,6 +201,287 @@ body {
     }
 
 .dsv-card-header {
-    background-color: var(--dsv-red);
+    background-color: var(--dsv-blue);
     color: white;
 }
+
+
+/* ============================================================
+   Navbar shell
+   ============================================================ */
+.site-navbar {
+    position: fixed;
+    top: 0;
+    left: 0; /* Ensure it starts at the very edge */
+    width: 100%;
+    z-index: 1030;
+    background-color: var(--nav-bg);
+    border-top: 4px solid var(--dsv-blue);
+    border-bottom: 1px solid var(--nav-border);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+
+/* ============================================================
+   Top bar — single flex row, full width
+   ============================================================ */
+.nav-topbar {
+    display: flex;
+    align-items: center;
+    height: 64px; /* Changed from min-height to height for consistency */
+    padding: 0 1.5rem;
+    gap: 1rem;
+    margin: 0 auto;
+    max-width: 100%;
+    position: relative; /* Remove any inherited fixed behavior */
+}
+
+.navbar-brand {
+    padding: 0;
+    margin-right: 0;
+    flex-shrink: 0;
+}
+
+    .navbar-brand img.dsv-logo {
+        height: var(--logo-height);
+        width: auto;
+        display: block;
+    }
+
+
+/* ============================================================
+   Desktop nav links — FIX: explicit flex-row so they sit side by side
+   ============================================================ */
+.desktop-nav {
+    display: flex; /* horizontal row — this is the key fix */
+    flex-direction: row;
+    align-items: center;
+    list-style: none;
+    margin: 0 auto; /* centers between logo and icons */
+    padding: 0;
+    gap: 0.25rem;
+}
+
+    .desktop-nav .nav-link {
+        color: var(--nav-text) !important;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.01em;
+        padding: 0.45rem 0.9rem !important;
+        border-radius: 4px;
+        position: relative;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+
+        .desktop-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 0.9rem;
+            right: 0.9rem;
+            height: 2px;
+            background: var(--nav-accent);
+            transform: scaleX(0);
+            transition: transform 0.2s ease;
+            border-radius: 2px;
+        }
+
+        .desktop-nav .nav-link:hover {
+            color: var(--nav-accent) !important;
+        }
+
+            .desktop-nav .nav-link:hover::after {
+                transform: scaleX(1);
+            }
+
+/* Hide desktop nav on mobile */
+@media (max-width: 991.98px) {
+    .desktop-nav {
+        display: none;
+    }
+
+    .desktop-icons {
+        display: none !important;
+    }
+}
+
+/* Hide mobile icons on desktop */
+.mobile-icons {
+    display: none;
+}
+
+@media (max-width: 991.98px) {
+    .mobile-icons {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-left: auto;
+    }
+}
+
+
+/* ============================================================
+   Icon buttons
+   ============================================================ */
+.desktop-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.nav-icon-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    background: none;
+    border: none;
+    padding: 0.2rem 0.4rem;
+    cursor: pointer;
+    color: var(--nav-text);
+    text-decoration: none;
+    line-height: 1;
+}
+
+    .nav-icon-btn i {
+        font-size: var(--nav-icon-size);
+        color: var(--nav-text);
+    }
+
+    .nav-icon-btn:hover i,
+    .nav-icon-btn:hover {
+        color: var(--nav-accent);
+    }
+
+.nav-icon-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    font-family: 'Raleway', sans-serif;
+    color: var(--nav-text);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.nav-icon-btn:hover .nav-icon-label {
+    color: var(--nav-accent);
+}
+
+.flag-icon {
+    width: 20px;
+    height: auto;
+    display: block;
+    border-radius: 2px;
+}
+
+.nav-hamburger-icon {
+    font-size: 1.6rem;
+}
+
+
+/* ============================================================
+   Mobile dropdown, trail and error fix
+   ============================================================ */
+.mobile-menu {
+    position: fixed; /* Changed from absolute to fixed */
+    top: 64px; /* Align with the bottom of the nav topbar */
+    left: 0;
+    width: 100%;
+    z-index: 1029;
+    background-color: var(--nav-bg);
+    border-bottom: 2px solid var(--nav-border);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height 0.3s ease, opacity 0.25s ease;
+}
+
+    .mobile-menu.open {
+        max-height: 600px;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+.mobile-menu-inner {
+    padding: 0.5rem 1.5rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-nav-link {
+    display: block;
+    color: var(--nav-text);
+    font-weight: 600;
+    font-size: 0.95rem;
+    font-family: 'Raleway', sans-serif;
+    padding: 0.65rem 0.25rem;
+    text-decoration: none;
+    border-bottom: 1px solid var(--nav-border);
+}
+
+    .mobile-nav-link:last-child {
+        border-bottom: none;
+    }
+
+    .mobile-nav-link:hover {
+        color: var(--nav-accent);
+        padding-left: 0.75rem;
+    }
+
+.mobile-menu-divider {
+    height: 2px;
+    background: var(--nav-border);
+    margin: 0.4rem 0;
+}
+
+/* ============================================================
+   DSV Footer - Mega footer menu...
+   ============================================================ */
+.dsv-footer {
+    background: #002664;
+    color: #ffffff;
+    font-size: 0.9rem;
+}
+
+    .dsv-footer a {
+        display: block;
+        color: #cfd8e3;
+        text-decoration: none;
+        margin-bottom: 0.6rem;
+        transition: 0.2s ease;
+    }
+
+        .dsv-footer a:hover {
+            color: #ffffff;
+            transform: translateX(3px);
+        }
+
+.footer-title {
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
+
+.dsv-footer i {
+    margin-right: 6px;
+    font-size: 1rem;
+    color: #cfd8e3;
+}
+
+.stock-box {
+    padding: 0.8rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 6px;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding-top: 1rem;
+}
+
+    .footer-bottom img {
+        border-radius: 2px;
+    }

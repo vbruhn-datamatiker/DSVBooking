@@ -8,47 +8,184 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DSVBooking.styles.css" asp-append-version="true" />
-    <!--Font family styling -->
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">DSVBooking</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
+        <nav class="site-navbar mb-3">
+
+            <!-- Top bar: always visible on all screen sizes -->
+            <div class="nav-topbar">
+
+                <!-- LEFT: Logo -->
+                <a class="navbar-brand" asp-area="" asp-page="/Index">
+                    <img src="~/images/dsv_logo.png" alt="DSV Logo" class="dsv-logo" />
+                </a>
+
+                <!-- CENTER: Nav links — desktop only, flex-row forces horizontal -->
+                <ul class="desktop-nav">
+                    <li><a class="nav-link" asp-area="" asp-page="/Index">Home</a></li>
+                    <li><a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a></li>
+                    <li><a class="nav-link" href="#">Bookings</a></li>
+                    <li><a class="nav-link" href="#">Services</a></li>
+                </ul>
+
+                <!-- RIGHT: Icons — desktop only -->
+                <div class="desktop-icons">
+                    <button class="nav-icon-btn" aria-label="Search">
+                        <i class="bi bi-search"></i>
+                        <span class="nav-icon-label">Search</span>
+                    </button>
+                    <button class="nav-icon-btn" aria-label="Language">
+                        <img src="https://flagcdn.com/w20/dk.png" alt="Danish flag" class="flag-icon" />
+                        <span class="nav-icon-label">DK / DA</span>
+                    </button>
+                    <a class="nav-icon-btn" asp-area="" asp-page="/Account/Login">
+                        <i class="bi bi-person-circle"></i>
+                        <span class="nav-icon-label">Login</span>
+                    </a>
+                    <button class="nav-icon-btn" id="theme-toggle" aria-label="Toggle dark mode">
+                        <i class="bi bi-moon-stars" id="theme-icon"></i>
+                        <span class="nav-icon-label" id="theme-label">Dark</span>
+                    </button>
+                </div>
+
+                <!-- Mobile right: compact icons + hamburger -->
+                <div class="mobile-icons">
+                    <button class="nav-icon-btn" aria-label="Search">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    <button class="nav-icon-btn" aria-label="Language">
+                        <img src="https://flagcdn.com/w20/dk.png" alt="Danish flag" class="flag-icon" />
+                    </button>
+                    <a class="nav-icon-btn" asp-area="" asp-page="/Account/Login">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                    <button class="nav-icon-btn" id="theme-toggle-mobile" aria-label="Toggle dark mode">
+                        <i class="bi bi-moon-stars" id="theme-icon-mobile"></i>
+                    </button>
+                    <button class="nav-icon-btn" id="hamburger-btn" aria-label="Toggle menu" aria-expanded="false">
+                        <i class="bi bi-list nav-hamburger-icon"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Mobile dropdown: full viewport width via position:absolute -->
+            <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+                <div class="mobile-menu-inner">
+                    <a class="mobile-nav-link" asp-area="" asp-page="/Index">Home</a>
+                    <a class="mobile-nav-link" asp-area="" asp-page="/Privacy">Privacy</a>
+                    <a class="mobile-nav-link" href="#">Bookings</a>
+                    <a class="mobile-nav-link" href="#">Services</a>
+                    <div class="mobile-menu-divider"></div>
+                    <a class="mobile-nav-link" href="#">Search</a>
+                    <a class="mobile-nav-link" href="#">DK / DA</a>
+                    <a class="mobile-nav-link" asp-area="" asp-page="/Account/Login">Login</a>
                 </div>
             </div>
+
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - DSVBooking - <a asp-area="" asp-page="/Privacy">Privacy</a>
+    <!-- ============================================================
+     DSV Mega Footer
+     ============================================================ -->
+    <footer class="dsv-footer">
+
+        <div class="container py-5">
+
+            <div class="row gy-4">
+
+                <!-- Column 1 -->
+                <div class="col-12 col-md-3">
+                    <h6 class="footer-title">Online værktøjer</h6>
+                    <a href="#">Book</a>
+                    <a href="#">Få et tilbud</a>
+                    <a href="#">Track & Trace</a>
+                    <a href="#">Selvbetjening</a>
+                    <a href="#">Afgange i helligdage</a>
+
+                    <h6 class="footer-title mt-4">Legal</h6>
+                    <a href="#">Juridisk meddelelse</a>
+                    <a href="#">Personoplysninger</a>
+                    <a href="#">Cookies</a>
+                    <a href="#">Terms & Conditions</a>
+                    <a href="#">Handelsbetingelser</a>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="col-12 col-md-3">
+                    <h6 class="footer-title">Vores løsninger</h6>
+                    <a href="#">Brancheløsninger</a>
+                    <a href="#">Luftfragt</a>
+                    <a href="#">Søfragt</a>
+                    <a href="#">Vejtransport</a>
+                    <a href="#">Projekttransport</a>
+                    <a href="#">Kontraktlogistik</a>
+                    <a href="#">Alle løsninger</a>
+                </div>
+
+                <!-- Column 3 -->
+                <div class="col-12 col-md-3">
+                    <h6 class="footer-title">DSV</h6>
+                    <a href="#">Kontakt os</a>
+                    <a href="#">Om DSV</a>
+                    <a href="#">Karriere</a>
+                    <a href="#">Investor</a>
+                    <a href="#">Presse</a>
+                    <a href="#">Bæredygtighed</a>
+                    <a href="#">Online services</a>
+                    <a href="#">COVID-19</a>
+                </div>
+
+                <!-- Column 4 -->
+                <div class="col-12 col-md-3">
+                    <h6 class="footer-title">Følg os</h6>
+
+                    <a href="#"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                    <a href="#"><i class="bi bi-facebook"></i> Facebook</a>
+                    <a href="#"><i class="bi bi-twitter-x"></i> X</a>
+                    <a href="#"><i class="bi bi-instagram"></i> Instagram</a>
+                    <a href="#"><i class="bi bi-youtube"></i> YouTube</a>
+                    <a href="#"><i class="bi bi-envelope"></i> Nyhedsbrev</a>
+
+                    <div class="stock-box mt-4">
+                        <h6 class="footer-title">Aktiekurs</h6>
+                        <span>Retrieving Stock Quotes...</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom bar -->
+            <div class="footer-bottom mt-5 pt-3 d-flex flex-column flex-md-row justify-content-between">
+
+                <div class="d-flex align-items-center gap-2">
+                    <img src="https://flagcdn.com/w20/dk.png" />
+                    <span>DK / DA · Change</span>
+                </div>
+
+                <div class="text-muted small">
+                    © DSV – All rights reserved
+                </div>
+
+            </div>
+
         </div>
+
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
