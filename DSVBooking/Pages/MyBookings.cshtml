@@ -1,0 +1,108 @@
+@page
+@model DSVBooking.Pages.MyBookingsModel
+@using DSVBooking.Models
+@{
+    ViewData["Title"] = "Mine bookinger";
+}
+
+<div class="container py-4">
+
+    <div class="dsv-header mb-4">
+        <h1 class="dsv-title">Mine bookinger</h1>
+        <p class="dsv-subtitle">Se og administrer dine bookinger</p>
+    </div>
+
+    <!-- Tjekker om der er sendt besked om bekræftigelse -->
+    @if (TempData["Confirmation"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            @TempData["Confirmation"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Name search form -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title mb-3">Find dine bookinger</h5>
+            <form method="get">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-6">
+                        <label for="EmployeeName" class="form-label">Dit navn</label>
+                        <input type="text" class="form-control" id="EmployeeName" name="EmployeeName"
+                               value="@Model.EmployeeName" placeholder="Indtast dit navn" />
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-dsv w-100">Søg</button>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="/MyBookings" class="btn btn-outline-secondary w-100">Nulstil</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Error message -->
+    @if (Model.ErrorMessage != "")
+    {
+        <div class="alert alert-warning">@Model.ErrorMessage</div>
+    }
+
+    <!-- Bookings liste -->
+    @if (Model.EmployeeName != "" && Model.Bookings.Count > 0)
+    {
+        <div class="row g-4">
+            @foreach (Booking booking in Model.Bookings)
+            {
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header dsv-card-header">
+                            <h5 class="mb-0">@Model.GetRoomName(booking.MeetingRoomId)</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-1">
+                                <i class="bi bi-person-fill me-2"></i>
+                                <strong>Navn:</strong> @booking.EmployeeName
+                            </p>
+                            <p class="mb-1">
+                                <i class="bi bi-calendar-fill me-2"></i>
+                                <strong>Dato:</strong> @booking.Date.ToString("dd/MM/yyyy")
+                            </p>
+                            <p class="mb-1">
+                                <i class="bi bi-clock-fill me-2"></i>
+                                <strong>Tidspunkt:</strong> @booking.StartTime.ToString("HH:mm") - @booking.EndTime.ToString("HH:mm")
+                            </p>
+                            <!-- Viser kun kommentarfelt hvis booking har en kommentar -->
+                            @if (booking.Comment != "")
+                            {
+                                <p class="mb-1">
+                                    <i class="bi bi-chat-fill me-2"></i>
+                                    <strong>Kommentar:</strong> @booking.Comment
+                                </p>
+                            }
+                        </div>
+
+                        <!-- Edit og delete booking felter -->
+                        <div class="card-footer bg-white border-top-0 d-flex gap-2">
+                            <a href="/EditBooking?bookingId=@booking.Id" class="btn btn-dsv flex-fill">Rediger</a>
+                            <a href="/DeleteBooking?bookingId=@booking.Id" class="btn btn-outline-danger flex-fill">Slet</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else if (Model.EmployeeName == "")
+    {
+        <div class="alert alert-info">
+            Indtast dit navn ovenfor for at finde dine bookinger.
+        </div>
+    }
+
+    <div class="mt-4">
+        <a href="/" class="btn btn-outline-dsv">Tilbage til oversigt over mødelokaler</a>
+    </div>
+
+</div>
