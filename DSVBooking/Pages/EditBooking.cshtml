@@ -1,0 +1,92 @@
+@page
+@model DSVBooking.Pages.EditBookingModel
+@using DSVBooking.Models
+@{
+    ViewData["Title"] = "Rediger booking";
+}
+
+<div class="container py-4">
+
+    <div class="dsv-header mb-4">
+        <h1 class="dsv-title">Rediger booking</h1>
+        <p class="dsv-subtitle">Opdater tidspunkt eller kommentar for din booking</p>
+    </div>
+
+    <!-- Null Check, sørger for en error message frem for et crash hvis der skulle ske en fejl/hvis booking ikke kan findes -->
+    @if (Model.ErrorMessage != "" && Model.Room == null)
+    {
+        <div class="alert alert-danger">
+            @Model.ErrorMessage <a href="/MyBookings">Gå tilbage til mine bookinger</a>.
+        </div>
+    }
+    else
+    {
+        <!-- Lokale info oversigt -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header dsv-card-header">
+                <h5 class="mb-0">@Model.Room.Name</h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-1"><strong>Kapacitet:</strong> @Model.Room.Capacity personer</p>
+                <p class="mb-0">
+                    <strong>Udstyr:</strong>
+                    @string.Join(", ", Model.Room.Equipment)
+                </p>
+            </div>
+        </div>
+
+        <!-- Error message -->
+        @if (Model.ErrorMessage != "")
+        {
+            <div class="alert alert-danger">@Model.ErrorMessage</div>
+        }
+
+        <!-- Edit form -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form method="post">
+                    <!--Gemte felter til BookingID og roomID, så OnPost ved hvilken booking/rum der er tale om -->
+                    <input type="hidden" name="BookingId" value="@Model.BookingId" />
+                    <input type="hidden" name="RoomId" value="@Model.RoomId" />
+
+                    <div class="mb-3">
+                        <label for="EmployeeName" class="form-label">Dit navn <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="EmployeeName" name="EmployeeName"
+                               value="@Model.EmployeeName" placeholder="Indtast dit navn" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Date" class="form-label">Dato <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" id="Date" name="Date"
+                               value="@Model.Date" required />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="StartTime" class="form-label">Starttidspunkt <span class="text-danger">*</span></label>
+                            <input type="time" class="form-control" id="StartTime" name="StartTime"
+                                   value="@Model.StartTime" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="EndTime" class="form-label">Sluttidspunkt <span class="text-danger">*</span></label>
+                            <input type="time" class="form-control" id="EndTime" name="EndTime"
+                                   value="@Model.EndTime" required />
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="Comment" class="form-label">Kommentar</label>
+                        <textarea class="form-control" id="Comment" name="Comment"
+                                  rows="3" placeholder="F.eks. formål med mødet (valgfrit)">@Model.Comment</textarea>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-dsv">Gem ændringer</button>
+                        <a href="/MyBookings" class="btn btn-outline-secondary">Annuller</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+
+</div>
